@@ -24,6 +24,7 @@ from typing import List, Dict, Callable, Any
 from pathlib import Path
 from distutils.version import LooseVersion
 
+import qsharp
 from qsharp.utils import log_messages
 from qsharp.serialization import map_tuples, unmap_tuples
 
@@ -54,7 +55,7 @@ class IQSharpClient(object):
     ## Server Lifecycle ##
 
     def start(self):
-        self.kernel_manager.start_kernel()
+        self.kernel_manager.start_kernel(extra_arguments=['--user-agent', f'qsharp:{qsharp.__version__}'])
         self.kernel_client = self.kernel_manager.client()
         atexit.register(self.stop)
 
