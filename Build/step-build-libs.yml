@@ -33,12 +33,26 @@ steps:
 # Create Nuget.
 ##
 - task: DotNetCoreCLI@2
-  displayName: 'Pack Libraries nugets'
+  displayName: 'Pack Microsoft.Quantum.Standard'
   inputs:
     command: custom
     custom: pack
     projects: |
      $(LibrariesRootFolder)/Standard/src/Standard.csproj
+    arguments: >
+      --no-build 
+      -c $(BuildConfiguration) 
+      -v $(Build.Verbosity)
+      -o $(System.DefaultWorkingDirectory) 
+      /p:Version=$(Assembly.Version)
+      /p:PackageVersion=$(Nuget.Version)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack Microsoft.Quantum.Chemistry'
+  inputs:
+    command: custom
+    custom: pack
+    projects: |
      $(LibrariesRootFolder)/Chemistry/src/DataModel/DataModel.csproj
     arguments: >
       --no-build 
