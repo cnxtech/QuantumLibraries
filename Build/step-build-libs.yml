@@ -40,5 +40,10 @@ steps:
     projects: |
      $(LibrariesRootFolder)/Standard/src/Standard.csproj
      $(LibrariesRootFolder)/Chemistry/src/DataModel/DataModel.csproj
-    arguments: ' --no-build -c $(BuildConfiguration) -v n -o $(System.DefaultWorkingDirectory) /p:PackageVersion=$(Nuget.Version)'
-
+    arguments: >
+      --no-build 
+      -c $(BuildConfiguration) 
+      -v $(Build.Verbosity)
+      -o $(System.DefaultWorkingDirectory) 
+      /p:Version=$(Assembly.Version)
+      /p:PackageVersion=$(Nuget.Version)
