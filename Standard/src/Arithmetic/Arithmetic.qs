@@ -19,17 +19,13 @@ namespace Microsoft.Quantum.Arithmetic {
     /// An integer which is assumed to be non-negative.
     /// ## target
     /// A quantum register which is used to store `value` in little-endian encoding.
-    operation ApplyXorInPlace(value : Int, target : LittleEndian) : Unit {
-        body (...) {
-            ApplyToEachCA(
-                CControlledCA(X),
-                Zip(IntAsBoolArray(value, Length(target!)), target!)
-            );
+    operation ApplyXorInPlace(value : Int, target : LittleEndian) : Unit is Adj + Ctl {
+        let valueAsBits = IntAsBoolArray(value, Length(target!));
+        for (idx in IndexRange(target!)) {
+            if (valueAsBits[idx]) {
+                X(target![idx]);
+            }
         }
-
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     /// # Summary
